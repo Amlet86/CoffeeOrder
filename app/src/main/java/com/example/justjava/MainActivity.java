@@ -13,6 +13,8 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
+    int numberOfCoffees = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +22,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method is called when the order button is clicked.
+     * This method is called when the plus button is clicked.
      */
-    public void submitOrder(View view) {
-        int numberOfCoffees = 2;
+    public void increment(View view) {
+        numberOfCoffees++;
         display(numberOfCoffees);
-        displayPrice(numberOfCoffees * 5);
+        displayPrice(numberOfCoffees);
+    }
+
+    /**
+     * This method is called when the minus button is clicked.
+     */
+    public void decrement(View view) {
+        if (numberOfCoffees == 0)
+            display(numberOfCoffees);
+        else {
+            numberOfCoffees--;
+            display(numberOfCoffees);
+        }
+        displayPrice(numberOfCoffees);
     }
 
     /**
@@ -37,11 +52,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method displays the given price on the screen.
+     * This method is called when the order button is clicked.
+     */
+    public void submitOrder(View view) {
+        displayMessage(numberOfCoffees);
+    }
+
+    /**
+     * This method displays the given price value on the screen.
      */
     private void displayPrice(int number) {
+        int totalPrice = number * 5;
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+        priceTextView.setText(NumberFormat.getCurrencyInstance().format(totalPrice));
+    }
+
+    /**
+     * This method displays the given text and price value on the screen.
+     */
+    private void displayMessage(int number) {
+        int totalPrice = number * 5;
+        String message = "Thank you for order \n" + number + " coffees.\n Total price: $" + totalPrice;
+        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+        priceTextView.setText(message);
     }
 
 }

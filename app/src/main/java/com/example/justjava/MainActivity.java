@@ -1,7 +1,9 @@
 package com.example.justjava;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +15,10 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
-    int numberOfCoffees = 1;
+    int currentNumberOfCoffees = 1;
+    int pricePerCup = 5;
+    boolean hasWhippedCream;
+    boolean hasChocolate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,25 +27,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * This method return string for display info of Whipped Cream topping depending on condition checkBox.
+     */
+    private String setHasWhippedCream() {
+        CheckBox toppingCheckBox = (CheckBox) findViewById(R.id.checkbox_whippedcream);
+        hasWhippedCream = toppingCheckBox.isChecked();
+        return hasWhippedCream ? "\n Whipped cream" : "";
+    }
+
+    /**
+     * This method return string for display info of Chocolate topping depending on condition checkBox.
+     */
+    private String setHasChocolate() {
+        CheckBox toppingCheckBox = (CheckBox) findViewById(R.id.checkbox_chocolate);
+        hasChocolate = toppingCheckBox.isChecked();
+        return hasChocolate ? "\n Chocolate" : "";
+    }
+
+    /**
      * This method is called when the plus button is clicked.
      */
     public void increment(View view) {
-        numberOfCoffees++;
-        display(numberOfCoffees);
-        displayPrice(numberOfCoffees);
+        currentNumberOfCoffees++;
+        display(currentNumberOfCoffees);
+        displayPrice();
     }
 
     /**
      * This method is called when the minus button is clicked.
      */
     public void decrement(View view) {
-        if (numberOfCoffees == 0)
-            display(numberOfCoffees);
+        if (currentNumberOfCoffees == 0)
+            display(currentNumberOfCoffees);
         else {
-            numberOfCoffees--;
-            display(numberOfCoffees);
+            currentNumberOfCoffees--;
+            display(currentNumberOfCoffees);
         }
-        displayPrice(numberOfCoffees);
+        displayPrice();
     }
 
     /**
@@ -55,26 +78,38 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        displayMessage(numberOfCoffees);
+        createOrderSummary(currentNumberOfCoffees);
     }
 
     /**
      * This method displays the given price value on the screen.
      */
-    private void displayPrice(int number) {
-        int totalPrice = number * 5;
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+    private void displayPrice() {
+        int totalPrice = calculatePrice();
+        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
         priceTextView.setText(NumberFormat.getCurrencyInstance().format(totalPrice));
+    }
+
+    /**
+     * This method calculate and return total price.
+     */
+    private int calculatePrice() {
+        return currentNumberOfCoffees * pricePerCup;
     }
 
     /**
      * This method displays the given text and price value on the screen.
      */
-    private void displayMessage(int number) {
-        int totalPrice = number * 5;
-        String message = "Thank you for order \n" + number + " coffees.\n Total price: $" + totalPrice;
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+    private void createOrderSummary(int number) {
+        int totalPrice = calculatePrice();
+        String message = "Quantity: " + number
+                + setHasWhippedCream()
+                + setHasChocolate()
+                + "\nTotal: $" + totalPrice
+                + "\n Thank you!";
+        TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
         priceTextView.setText(message);
+        priceTextView.setTextColor(Color.RED);
     }
 
 }

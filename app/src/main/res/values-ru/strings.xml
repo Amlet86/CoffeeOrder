@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Заказ кофе</string>
+    <string name="hint">Введите своё имя</string>
+    <string name="titleOfToppings">Добавки</string>
+    <string name="whippedCream">Взбитые сливки</string>
+    <string name="chocolate">Шоколад</string>
+    <string name="quantity">Количество</string>
+    <string name="order">Заказать</string>
+    <string name="subject">Новый заказ</string>
+    <string name="usersName">Имя</string>
+    <string name="coffee">кофе</string>
+    <string name="totalPrice">Итоговая цена</string>
+    <string name="thankYou">Спасибо!</string>
+</resources>
